@@ -1,0 +1,159 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-ink-950 font-sans text-bone antialiased;
+    font-size: 17px;
+    line-height: 1.6;
+  }
+  ::selection {
+    background: #c8a24a;
+    color: #131416;
+  }
+  :focus-visible {
+    outline: 2px solid #c8a24a;
+    outline-offset: 3px;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+}
+
+@layer components {
+  .page {
+    @apply mx-auto w-full max-w-page px-5 sm:px-8 lg:px-12;
+  }
+  /* Map-style lettering: metadata, annotations, legends */
+  .label {
+    @apply font-mono text-[11px] uppercase leading-snug tracking-[0.14em] text-bone-mute;
+  }
+  .display {
+    @apply font-display font-semibold uppercase leading-[0.95] tracking-[0.01em] text-bone;
+  }
+  .h1 {
+    @apply display text-[clamp(2.75rem,7vw,5.75rem)];
+  }
+  .h2 {
+    @apply display text-[clamp(2rem,4.2vw,3.5rem)];
+  }
+  .h3 {
+    @apply display text-2xl sm:text-3xl;
+  }
+  .body {
+    @apply max-w-prose text-bone-dim;
+  }
+  .lead {
+    @apply max-w-prose text-lg text-bone sm:text-xl;
+  }
+  .btn {
+    @apply inline-flex min-h-[44px] items-center justify-center border border-brass bg-brass px-6 font-mono text-xs font-medium uppercase tracking-[0.14em] text-ink-950 transition-colors hover:bg-bone hover:border-bone;
+  }
+  .btn-ghost {
+    @apply inline-flex min-h-[44px] items-center justify-center border border-bone-mute px-6 font-mono text-xs font-medium uppercase tracking-[0.14em] text-bone transition-colors hover:border-brass hover:text-brass;
+  }
+  .btn-disabled {
+    @apply inline-flex min-h-[44px] cursor-not-allowed items-center justify-center border border-dashed border-ink-600 px-6 font-mono text-xs uppercase tracking-[0.14em] text-bone-mute;
+  }
+  .link {
+    @apply text-brass underline decoration-brass/40 underline-offset-4 transition-colors hover:decoration-brass;
+  }
+  .rule {
+    @apply border-t border-ink-600;
+  }
+  .panel {
+    @apply border border-ink-600 bg-ink-900;
+  }
+  .tag {
+    @apply inline-block border border-ink-600 px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.1em] text-bone-dim;
+  }
+  /* Faint drafting grid, used behind maps and the hero */
+  .grid-bg {
+    background-image:
+      linear-gradient(to right, rgba(236, 230, 218, 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(236, 230, 218, 0.045) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .hatch {
+    background-image: repeating-linear-gradient(
+      135deg,
+      rgba(236, 230, 218, 0.06) 0 1px,
+      transparent 1px 10px
+    );
+  }
+}
+
+/* Motion: one page fade, one path draw, quiet section entrance */
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.page-in {
+  animation: page-in 0.35s ease-out both;
+}
+@keyframes draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.draw-path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 2.4s 0.3s ease-in-out forwards;
+}
+@keyframes marker-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.marker-in {
+  opacity: 0;
+  animation: marker-in 0.4s ease-out forwards;
+}
+.reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.5s ease-out,
+    transform 0.5s ease-out;
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .page-in,
+  .draw-path,
+  .marker-in {
+    animation: none;
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
